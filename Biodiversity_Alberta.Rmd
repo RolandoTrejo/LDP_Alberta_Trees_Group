@@ -8,16 +8,22 @@ output:
     highlight: tango
 ---
 
+## MATCHING BIOLOGY CONCEPTS AND STATISTICS
 
-## VASCULAR PLANT DIVERSITY VARIATION ALONG SITES AND SOIL TEMPERATURE
+### TREE RING ANALYSIS OVER TIME
+### VASCULAR PLANT DIVERSITY VARIATION ALONG SITES AND SOIL TEMPERATURE
 
 ### INTRODUCTION
 
-Diversity is a key concept in biology. If you have wondered what is the connection between species richness of plants versus space  and environment, this is the right place to achieve basic biological and statistical concepts. There are over 352 000 (391 000 according to Jin and Qian, 2019) species of vascular plants in the world. More than 95% of vascular plants are flowering plants, also called angiosperms (e.g. grasses, orchids, maple trees). The other types of vascular plants are gymnosperms (cone-bearing trees, e.g. pine trees, spruce trees) and seedless plants (e.g. ferns, horsetails) (see fugure of vascular plants below) . 5111 species of vascular plants have been found in Canada(CESCC, 2010). Such an amazing quantity of types and forms of life definitely invite biologists to wander them selves how diversity works in nature.
+An interesting concept in biology, and more in forestry, is the ring dynamics of trees over time. Dendroclimatology studies and uses the growth ring patterns to reconstruct past variations in climate (Fritts. 1987). Since well-defined annual-growth rings can be observed in the wood (rings) from many species of temperate forest trees throughout the world, in certain circumstances, these growth rings contain useful information about varying environmental conditions affecting their growth like temperature changes and humidity as well as tree features (age and size), depending on the species and latitude for what other data analysis (climate data) should be included (Tumajer, J., & Lehejček, J. 2019).  
 
-### OBJECTIF
+Another key concept in biology is Diversity. If you have wondered what is the connection between species richness of plants versus space  and environment, this is the right place to achieve basic biological and statistical concepts. There are over 352 000 (391 000 according to Jin and Qian, 2019) species of vascular plants in the world. More than 95% of vascular plants are flowering plants, also called angiosperms (e.g. grasses, orchids, maple trees). The other types of vascular plants are gymnosperms (cone-bearing trees, e.g. pine trees, spruce trees) and seedless plants (e.g. ferns, horsetails) (see fugure of vascular plants below) . 5111 species of vascular plants have been found in Canada(CESCC, 2010). Such an amazing quantity of types and forms of life definitely invite biologists to wander them selves how diversity works in nature.
 
-At the end of this tutorial you will be able to understand why biology and statistics do a nice match. You will be able to have the basis of linear regression applied to species richness in function of at least of a couple of independent variables. 
+
+
+### OBJECTIFS
+
+At the end of this tutorial you will be able to explore patterns of rings over time. Perhaps, something hidden is there! You will also to be able to understand why biology and statistics do a nice match. You will be able to have the basis of linear regression applied to species richness in function of at least of a couple of independent variables. 
 
 ![](/Users/rolandotrejoperez/Desktop/LDP_Alberta_Trees_Group/Vascular_Plants.png)
 
@@ -46,6 +52,81 @@ The experimental design consisted of plots of 50x50 m subdivided into 50 5x5 m q
 
 ![](/Users/rolandotrejoperez/Desktop/LDP_Alberta_Trees_Group/Location.png)
 
+
+## TREE RING ANALYSIS OVER TIME
+
+Let's plot some graphics. We can plot the average ring width (mm) in axe y in function of time (year) in axe x (see red line). But, we can also plot the average ring width (mm) in axe y in function of time (year) in axe x, simultaneously considering the stands (see gray lines). Do you have some ideas about what is happening whit these trends?
+
+```{r, message=FALSE, echo=FALSE}
+embed_url("https://www.youtube.com/watch?v=xmZO7aRgcW4")%>%
+use_align("center")
+```
+
+
+```{r, include=FALSE,message=FALSE, echo=FALSE,warning = FALSE}
+## application 1
+library(tidyverse)
+library(readr)
+
+# for BP, JS, LF, ML, OI, SA, WO, WY
+
+aos_files <- list.files(path = '/Users/rolandotrejoperez/Desktop/LDP_Alberta_Trees_Group/Application 1',
+                        pattern = 'AOS_Dendrochronology_1983', full.names = T)
+
+aos_dt <-
+  do.call(rbind,
+          lapply(aos_files, read.csv))
+summary(aos_dt)
+table(aos_dt$stand)
+```
+
+```{r, message=FALSE, echo=FALSE,warning = FALSE}
+aos_dt %>% group_by(year, stand) %>%
+  summarise(avg_ring_width_mm = mean(ring_width_mm),
+            n = n()) %>%
+  ggplot(aes(x = year, y = avg_ring_width_mm)) +
+  geom_point(data = aos_dt, aes(x = year, y = ring_width_mm), shape = 21,
+             size= 2, color = 'gray50', alpha = .2) + geom_smooth(aes(group = stand), alpha = .2, color = 'gray40') +
+  theme_bw() +
+  facet_grid(~stand) +
+  geom_smooth(data = aos_dt %>% select(-stand), aes(x = year, y = ring_width_mm),
+              color = 'red', linetype = 'dashed')
+
+
+```              
+
+
+```{r, message=FALSE, echo=FALSE,warning = FALSE}
+## same for HONDO
+#n=1, 2, 3
+hondo_files <- list.files(path = '/Users/rolandotrejoperez/Desktop/LDP_Alberta_Trees_Group/Application 1',
+                          pattern = 'Hondo_Dendrochronology_1983', full.names = T)
+
+hondo_dt <-
+  do.call(rbind,
+          lapply(hondo_files, read.csv)) %>%
+  mutate(stand = factor(stand))
+
+hondo_dt %>% group_by(year, stand) %>%
+  summarise(avg_ring_width_mm = mean(ring_width_mm),
+            n = n()) %>%
+  ggplot(aes(x = year, y = avg_ring_width_mm)) +
+  geom_point(data = hondo_dt, aes(x = year, y = ring_width_mm, group = stand), shape = 21,
+             size= 2, color = 'gray50', alpha = .2) + geom_smooth(aes(group = stand), alpha = .2, color = 'gray40') +
+  theme_bw() +
+  facet_grid(~stand) +
+  geom_smooth(data = hondo_dt %>% select(-stand), aes(x = year, y = ring_width_mm),
+              color = 'red', linetype = 'dashed')
+
+```
+
+BINGO!!!: Tree ring width decreases over time, and patterns, changes follow an oscillation behavior which might suggest external (temperature, humidity) and internal (age, latitude, species) factors affecting tree growth, respectively. It seems that stands follow different patters, perhaps they have different composition, or why not, they can be more or less diverse in vascular species affecting growth. As you can see, the information observed in the graphics can bring us some insights about what is going on with ring trees dynamics.
+
+
+
+## VASCULAR PLANT DIVERSITY VARIATION ALONG SITES AND SOIL TEMPERATURE
+
+Now, it is time to explore another central concept in biology, Species diversity. At the same time you will be able to understand main statistical concepts very useful to understand how nature works. Considering species richness, we can state the following questions:
 
  A. Can we explain vascular diversity regarding soil temperature? 
  
@@ -505,6 +586,12 @@ Packer, J.G., and Gould, A.J. 2017. Vascular plants of Alberta, part 1: Ferns, F
 
 Earle, C.J. 2021.The Gymnossperm Database. Consulted on April 7, 2022: [https://www.conifers.org/zz/gymnosperms.php].
 Go Botany (3.7). 2022. Native Plant Trust. Consulted on April 7, 2022: [https://gobotany.nativeplanttrust.org]
+
+Fritts, H. C. (1987). TREE-RING ANALYSISTree-ring analysis. In Climatology (pp. 858–875). Springer US. https://doi.org/10.1007/0-387-30749-4_182
+
+Tumajer, J., & Lehejček, J. (2019). Boreal tree-rings are influenced by temperature up to two years prior to their formation: A trade-off between growth and reproduction? Environmental Research Letters, 14(12), 124024. https://doi.org/10.1088/1748-9326/ab5134
+
+NOAA. . Picture Climate: How Can We Learn from Tree Rings? | National Centers for Environmental Information (NCEI) formerly known as National Climatic Data Center (NCDC). (n.d.). Retrieved 8 April 2022, from https://www.ncdc.noaa.gov/news/picture-climate-how-can-we-learn-tree-rings
 
 
                                                         FIN

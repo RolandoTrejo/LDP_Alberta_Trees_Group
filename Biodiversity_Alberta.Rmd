@@ -1,10 +1,14 @@
+
 ---
 title: "**Alberta Trees Tutorial**"
-author: "Rolando Trejo (Université de Montréal),Jhoan Chavez (University of Northern British Columbia) ,Zihaohan Sang (University of Alberta)"
+author: "Rolando Trejo (Université de Montréal),
+         Jhoan Chavez (University of Northern British Columbia),
+         Zihaohan Sang (University of Alberta)"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: learnr::tutorial
 runtime: shiny_prerendered
 ---
+
 
 ```{r, include=FALSE,message=FALSE, echo=FALSE}
 RequiredPackages <- c("learnr","htmlwidgets","vembedr","tidyverse", "readr","ggplot2","multcompView","MuMIn","rpart","rpart.plot","plotly","dplyr","jtools","interactions","shiny")
@@ -36,7 +40,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ### **1. AUDIENCE: FORESTRY AND ECOLOGY** 
 
-How BIG is Canada's Boreal Forest? 
+How BIG is Canada's Boreal Forest? *Video from Boreal Conservation [https://www.borealconservation.org]*
 
 ```{r, include=FALSE,message=FALSE, echo=FALSE}
 library(vembedr)
@@ -47,7 +51,8 @@ embed_url("https://www.youtube.com/watch?v=_XjpzlVVdW8")%>%
 use_align("center")
 ```
 
-### **2. LEARNING OBJECTIFS**
+
+### **2. LEARNING OBJECTIVES**
   
   <details>
   <summary> **Click here** </summary>
@@ -86,8 +91,12 @@ use_align("center")
   <p>  
 A key concept in biology is Diversity. If you have wondered what is the connection between species richness of plants versus space  and environment, this is the right place to achieve basic biological and statistical concepts. There are over 352 000 (391 000 according to Jin and Qian, 2019) species of vascular plants in the world. More than 95% of vascular plants are flowering plants, also called angiosperms (e.g. grasses, orchids, maple trees). The other types of vascular plants are gymnosperms (cone-bearing trees, e.g. pine trees, spruce trees) and seedless plants (e.g. ferns, horsetails) (see figure of vascular plants below) . 5111 species of vascular plants have been found in Canada(CESCC, 2010). Such an amazing quantity of types and forms of life definitely invite biologists to wander them selves how diversity works in nature.
 
-
-![](~/Documents/GitHub/LDP_Alberta_Trees_Group/Biodiversity_Rings_Alberta/Vascular_Plants.png)
+```{r fig1, echo = FALSE, out.width = "100%", fig.cap = "Photo from "}
+htmltools::img(
+				src = "https://github.com/Living-Data-Tutorials/website/blob/main/_lessons/2022-04-07-alberta-trees-tutorial/Vascular_Plants.png?raw=true", height = "500px", width = "100%", `data-external` = "1"
+			)
+```
+*Photos from The Gymnosperm Database and Go Botany (3.7)*
 
   </details>
 
@@ -101,7 +110,13 @@ An interesting project monitoring diversity was the Seasonal and annual dynamics
 
 Two regions were used for this study: one in the Hondo-Slave Lake (hereafter, Hondo) region of Alberta, which was surveyed from 1980 to 2015, and a second location in the Athabasca Oil Sands (hereafter, AOS) region in northeastern Alberta, which was surveyed from 1981 to 1984 and thought to have substantial atmospheric pollution due to regional industrial development (oil sands mining and processing). 
 
-![](~/Documents/GitHub/LDP_Alberta_Trees_Group/Alberta_Project.png)
+```{r fig2, echo = FALSE, out.width = "100%", fig.cap = "Photo from "}
+htmltools::img(
+				src = "https://github.com/Living-Data-Tutorials/website/blob/main/_lessons/2022-04-07-alberta-trees-tutorial/Alberta_Project.png?raw=true", height = "500px", width = "100%", `data-external` = "1"
+			)
+```
+*Photo from Seasonal Dynamics (SEADYN) and later Annual Dynamics (ANNDYN) research projects metadata, Alberta*
+
   </details>
   
 ### **5.1 EXPERIMENTAL DESIGN** 
@@ -112,7 +127,16 @@ Two regions were used for this study: one in the Hondo-Slave Lake (hereafter, Ho
   
 The experimental design consisted of plots of 50x50 m subdivided into 50 5x5 m quadrants. Data coming from Hondo monitoring can allow us to state tree questions concerning soil temperature and stands.
 
-![](~/Documents/GitHub/LDP_Alberta_Trees_Group/Location.png)
+
+
+
+```{r fig3, echo = FALSE, out.width = "100%", fig.cap = "Photo from "}
+htmltools::img(
+				src = "https://github.com/Living-Data-Tutorials/website/blob/main/_lessons/2022-04-07-alberta-trees-tutorial/Location.png?raw=true", height = "500px", width = "100%", `data-external` = "1"
+			)
+```
+*Photo from Seasonal Dynamics (SEADYN) and later Annual Dynamics (ANNDYN) research projects metadata, Alberta*
+
   </details>
 
 ### **6. VASCULAR PLANT DIVERSITY VARIATION ALONG SITES AND SOIL TEMPERATURE**
@@ -143,8 +167,8 @@ In order to answer our questions, we will use data from two different datasets f
 
 ```{r,message=FALSE,warning=FALSE}
 # Species richness variation by soil temperature (C)
-Hondo_VascularCover_2010_CLEAN<-read.csv("~/Documents/GitHub/LDP_Alberta_Trees_Group/Hondo_VascularCover_2010_CLEAN.csv", sep=";")
-Hondo_SoilTemp_2010_CLEAN<- read.csv("~/Documents/GitHub/LDP_Alberta_Trees_Group/Hondo_SoilTemp_2010_CLEAN.csv", sep=";")
+Hondo_VascularCover_2010_CLEAN<-read.csv("https://raw.githubusercontent.com/Living-Data-Tutorials/website/main/_lessons/2022-04-07-alberta-trees-tutorial/Hondo_VascularCover_2010_CLEAN.csv", sep=";")
+Hondo_SoilTemp_2010_CLEAN<- read.csv("https://raw.githubusercontent.com/Living-Data-Tutorials/website/main/_lessons/2022-04-07-alberta-trees-tutorial/Hondo_SoilTemp_2010_CLEAN.csv", sep=";")
 
 SR_SoilTemp <- data.frame(stand=as.factor(Hondo_SoilTemp_2010_CLEAN$stand),
                           SR=Hondo_VascularCover_2010_CLEAN$SR,
@@ -412,8 +436,8 @@ Run the following code and answer the question below. Here, we use the model one
 
 ```{r M1_plot, exercise=TRUE, exercise.lines = 36, message=FALSE}
 # Importing data
-Hondo_VascularCover_2010_CLEAN<-read.csv("~/Documents/GitHub/LDP_Alberta_Trees_Group/Hondo_VascularCover_2010_CLEAN.csv", sep=";")
-Hondo_SoilTemp_2010_CLEAN<- read.csv("~/Documents/GitHub/LDP_Alberta_Trees_Group/Hondo_SoilTemp_2010_CLEAN.csv", sep=";")
+Hondo_VascularCover_2010_CLEAN<-read.csv("https://raw.githubusercontent.com/Living-Data-Tutorials/website/main/_lessons/2022-04-07-alberta-trees-tutorial/Hondo_VascularCover_2010_CLEAN.csv", sep=";")
+Hondo_SoilTemp_2010_CLEAN<- read.csv("https://raw.githubusercontent.com/Living-Data-Tutorials/website/main/_lessons/2022-04-07-alberta-trees-tutorial/Hondo_SoilTemp_2010_CLEAN.csv", sep=";")
 
 # Merging data
 SR_SoilTemp <- data.frame(stand=as.factor(Hondo_SoilTemp_2010_CLEAN$stand),
@@ -425,6 +449,7 @@ M1 <- lm(SR ~ temp_C,data = SR_SoilTemp)
 # Residuals and coefficients of the model
 (summ_M1 <- summary(M1)) #
 # Simplified ggplot theme
+library(ggplot2)
 fig <- theme_bw() +
   theme(panel.grid.minor=element_blank(),
         panel.grid.major=element_blank(),
@@ -481,6 +506,7 @@ smooth_model <- gam(y_response  ~ s(x), data = Linear_not_linear)
 AIC(linear_model, smooth_model)
 
 # Visualization
+library(ggplot2)
 p1<-ggplot(Linear_not_linear, aes(x = x, y = y_response )) +
   geom_point() +
   geom_line(colour = "red", size = 1.2,
@@ -509,8 +535,8 @@ Now, let's explore our real species richness and soil temperature data relations
 
 ```{r print-linearityTest-hint}
 # Data
-Hondo_VascularCover_2010_CLEAN<-read.csv("~/Documents/GitHub/LDP_Alberta_Trees_Group/Hondo_VascularCover_2010_CLEAN.csv", sep=";")
-Hondo_SoilTemp_2010_CLEAN<- read.csv("~/Documents/GitHub/LDP_Alberta_Trees_Group/Hondo_SoilTemp_2010_CLEAN.csv", sep=";")
+Hondo_VascularCover_2010_CLEAN<-read.csv("https://raw.githubusercontent.com/Living-Data-Tutorials/website/main/_lessons/2022-04-07-alberta-trees-tutorial/Hondo_VascularCover_2010_CLEAN.csv", sep=";")
+Hondo_SoilTemp_2010_CLEAN<- read.csv("https://raw.githubusercontent.com/Living-Data-Tutorials/website/main/_lessons/2022-04-07-alberta-trees-tutorial/Hondo_SoilTemp_2010_CLEAN.csv", sep=";")
 SR_SoilTemp <- data.frame(stand=as.factor(Hondo_SoilTemp_2010_CLEAN$stand),
                           SR=Hondo_VascularCover_2010_CLEAN$SR,
                           temp_C=Hondo_SoilTemp_2010_CLEAN$temp_C)
@@ -522,6 +548,7 @@ smooth_model <- gam(SR  ~ s(temp_C), data = SR_SoilTemp)
 AIC(linear_model, smooth_model)
 
 # Visualization
+library(ggplot2)
 Non_linear<-ggplot(SR_SoilTemp, aes(x = temp_C, y = SR )) +
   geom_point() +
   xlab("Soil temperature (C)") +
@@ -668,8 +695,8 @@ write.csv(x=Hondo_SoilTemp_2010,file="Hondo_SoilTemp_2010.csv", row.names=FALSE)
 3. Open the 2010 subsets in excel and order both of them by stand and quad, then corroborate the perfect correspondence in order.
 
 ```{r,message=FALSE, echo=FALSE}
-Hondo_VascularCover_2010_CLEAN<- read.csv("~/Documents/GitHub/LDP_Alberta_Trees_Group/Hondo_VascularCover_2010_CLEAN.csv", sep=";")
-Hondo_SoilTemp_2010_CLEAN<- read.csv("~/Documents/GitHub/LDP_Alberta_Trees_Group/Hondo_SoilTemp_2010_CLEAN.csv", sep=";")
+Hondo_VascularCover_2010_CLEAN<-read.csv("https://raw.githubusercontent.com/Living-Data-Tutorials/website/main/_lessons/2022-04-07-alberta-trees-tutorial/Hondo_VascularCover_2010_CLEAN.csv", sep=";")
+Hondo_SoilTemp_2010_CLEAN<- read.csv("https://raw.githubusercontent.com/Living-Data-Tutorials/website/main/_lessons/2022-04-07-alberta-trees-tutorial/Hondo_SoilTemp_2010_CLEAN.csv", sep=";")
 
 ```
 
@@ -692,6 +719,8 @@ SR_SoilTemp <- data.frame(stand=as.factor(Hondo_SoilTemp_2010_CLEAN$stand),
   <summary> **Click here** </summary>
   <p>  
   
+Hesketh, A., Loesberg, J., Bledsoe, E., Karst, J., & Macdonald, E. (2021). Seasonal and annual dynamics of western Canadian boreal forest plant communities: A legacy dataset spanning four decades [Data set]. Scholars Portal Dataverse. https://doi.org/10.5683/SP3/PZCAVE
+
 Canadian Endangered Species Conservation Council(CESCC). 2010. Wild Species 2010: The general status of Species in Canada.
 
 Jin, Y., and Qian, H. 2019. V.PhyloMaker: an R package that can generate very large phylogenies for vascular plants. Ecography, 42: 1353: 1359.
@@ -707,14 +736,15 @@ Go Botany (3.7). 2022. Native Plant Trust. Consulted on April 7, 2022: [https://
 
 ### **1. AUDIENCE: FORESTRY** 
 
-Tree Stories: How Tree Rings Reveal Extreme Weather Cycles?
+Tree Stories: How Tree Rings Reveal Extreme Weather Cycles? *Video from Brigham Young University, Utah*
 
 ```{r, message=FALSE, echo=FALSE}
 embed_url("https://www.youtube.com/watch?v=xmZO7aRgcW4")%>%
 use_align("center")
 ```
+                 
 
-### **2. LEARNING OBJECTIFS**
+### **2. LEARNING OBJECTIVES**
 
 <details>
   <summary> **Click here** </summary>
@@ -742,7 +772,7 @@ An interesting concept in biology, and more in forestry, is the ring dynamics of
   <summary> **Click here** </summary>
   <p>  
 
-Let's plot some graphics. We can plot the average ring width (mm) in axe y in function of time (year) in axe x (see red line). But, we can also plot the average ring width (mm) in axe y in function of time (year) in axe x, simultaneously considering the stands (see gray lines). Do you have some ideas about what is happening whit these trends? 
+Let's plot some graphics. We can plot the average ring width (mm) in axe y in function of time (year) in axe x (see red line). But, we can also plot the average ring width (mm) in axe y in function of time (year) in axe x, simultaneously considering the stands (see gray lines). Do you have some ideas about what these trends might be telling us?
 
   
    </details>
@@ -753,17 +783,29 @@ Let's plot some graphics. We can plot the average ring width (mm) in axe y in fu
   <summary> **Click here** </summary>
   <p>  
 
-```{r AOS_plot, exercise=TRUE, exercise.lines = 25, message=FALSE}
+```{r AOS_plot, exercise=TRUE, exercise.lines = 37, message=FALSE}
+
+# Libraries
 library(tidyverse)
 library(readr)
 library(dplyr)
 library(ggplot2)
 
+# AOS sites
 # for BP, JS, LF, ML, OI, SA, WO, WY stands
 
-aos_files <- list.files(path = '/Users/rolandotrejoperez/Documents/GitHub/LDP_Alberta_Trees_Group',
-                        pattern = 'AOS_Dendrochronology_1983', full.names = T)
+# Files
+aos_files <- c("https://raw.githubusercontent.com/Living-Data-Tutorials/website/main/_lessons/2022-04-07-alberta-trees-tutorial/AOS_Dendrochronology_1983%20-%20BP.csv",
+               "https://raw.githubusercontent.com/Living-Data-Tutorials/website/main/_lessons/2022-04-07-alberta-trees-tutorial/AOS_Dendrochronology_1983%20-%20JS.csv",
+               "https://raw.githubusercontent.com/Living-Data-Tutorials/website/main/_lessons/2022-04-07-alberta-trees-tutorial/AOS_Dendrochronology_1983%20-%20LF.csv",
+               "https://raw.githubusercontent.com/Living-Data-Tutorials/website/main/_lessons/2022-04-07-alberta-trees-tutorial/AOS_Dendrochronology_1983%20-%20ML.csv",
+               "https://raw.githubusercontent.com/Living-Data-Tutorials/website/main/_lessons/2022-04-07-alberta-trees-tutorial/AOS_Dendrochronology_1983%20-%20OI.csv",
+               "https://raw.githubusercontent.com/Living-Data-Tutorials/website/main/_lessons/2022-04-07-alberta-trees-tutorial/AOS_Dendrochronology_1983%20-%20SA.csv",
+               "https://raw.githubusercontent.com/Living-Data-Tutorials/website/main/_lessons/2022-04-07-alberta-trees-tutorial/AOS_Dendrochronology_1983%20-%20WO.csv",
+               "https://raw.githubusercontent.com/Living-Data-Tutorials/website/main/_lessons/2022-04-07-alberta-trees-tutorial/AOS_Dendrochronology_1983%20-%20WY.csv"
+               )
 
+# Visualization
 aos_dt <-
   do.call(rbind,
           lapply(aos_files, read.csv))
@@ -789,13 +831,24 @@ aos_dt %>% group_by(year, stand) %>%
 <details>
   <summary> **Click here** </summary>
   <p>  
-```{r Hondo_plot, exercise=TRUE, exercise.lines = 25, message=FALSE}
+```{r Hondo_plot, exercise=TRUE, exercise.lines = 33, message=FALSE}
+
+
+# Libraries
+library(tidyverse)
+library(readr)
+library(dplyr)
+library(ggplot2)
 
 ## same for HONDO
 #n=1, 2, 3 stands
-hondo_files <- list.files(path = '/Users/rolandotrejoperez/Documents/GitHub/LDP_Alberta_Trees_Group',
-                          pattern = 'Hondo_Dendrochronology_1983', full.names = T)
 
+# Files
+hondo_files <- c("https://raw.githubusercontent.com/Living-Data-Tutorials/website/main/_lessons/2022-04-07-alberta-trees-tutorial/Hondo_Dendrochronology_1983%20-%20STAND%201.csv",
+                 "https://raw.githubusercontent.com/Living-Data-Tutorials/website/main/_lessons/2022-04-07-alberta-trees-tutorial/Hondo_Dendrochronology_1983%20-%20STAND%202.csv",
+                 "https://raw.githubusercontent.com/Living-Data-Tutorials/website/main/_lessons/2022-04-07-alberta-trees-tutorial/Hondo_Dendrochronology_1983%20-%20STAND%203.csv"
+                 )
+# Visualization
 hondo_dt <-
   do.call(rbind,
           lapply(hondo_files, read.csv)) %>%
@@ -812,6 +865,8 @@ hondo_dt %>% group_by(year, stand) %>%
   facet_grid(~stand) +
   geom_smooth(data = hondo_dt %>% select(-stand), aes(x = year, y = ring_width_mm),
               color = 'red', linetype = 'dashed')
+
+
 
 ```
 </details>

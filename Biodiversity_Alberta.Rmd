@@ -820,8 +820,4 @@ NOAA. . Picture Climate: How Can We Learn from Tree Rings? | National Centers fo
 
 Rivet, A., Payette, S., Berteaux, D., & Girard, F. (2017). Pines and porcupines: A tree-ring analysis of browsing and dynamics of an overmature pine forest. Canadian Journal of Forest Research, 47, 257–268. https://doi.org/10.1139/cjfr-2016-0214  
 
-## **Glossary**
 
-## **Français**
-
-Version en français disponible sur https://rtrejo.shinyapps.io/Biodiversite_Arbres_Alberta
